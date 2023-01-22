@@ -57,7 +57,6 @@ const EditUserForm = ({ user }) => {
   }, [password, confirmPassword, validPassword])
 
   useEffect(() => {
-    console.log(isSuccess)
     if (isSuccess || isDelSuccess) {
       setFirstName("")
       setLastName("")

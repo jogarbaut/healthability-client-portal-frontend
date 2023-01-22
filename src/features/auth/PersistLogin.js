@@ -4,6 +4,7 @@ import { useRefreshMutation } from "./authApiSlice"
 import usePersist from "../../hooks/usePersist"
 import { useSelector } from "react-redux"
 import { selectCurrentToken } from "./authSlice"
+import BounceLoader from "react-spinners/BounceLoader"
 
 const PersistLogin = () => {
   const [persist] = usePersist()
@@ -19,7 +20,6 @@ const PersistLogin = () => {
       // React 18 Strict Mode
 
       const verifyRefreshToken = async () => {
-        console.log("verifying refresh token")
         try {
           //const response =
           await refresh()
@@ -41,19 +41,16 @@ const PersistLogin = () => {
   let content
   if (!persist) {
     // persist: no
-    console.log("no persist")
     content = <Outlet />
   } else if (isLoading) {
     //persist: yes, token: no
-    console.log("loading")
-    content = <p>Loading...</p>
+    <BounceLoader color="#CD760F" />
   } else if (isError) {
     //persist: yes, token: no
-    console.log("error")
     content = (
       <p className="errmsg">
         {`${error?.data?.message} - `}
-        <Link to="/login">Please login again</Link>.
+        <Link to="/login">Please Login Again</Link>.
       </p>
     )
   } else if (isSuccess && trueSuccess) {

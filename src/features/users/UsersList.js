@@ -1,5 +1,6 @@
 import { useGetUsersQuery } from "./usersApiSlice"
 import User from "./User"
+import BounceLoader from "react-spinners/BounceLoader"
 
 const UsersList = () => {
   const {
@@ -16,7 +17,7 @@ const UsersList = () => {
 
   let content
 
-  if (isLoading) content = <p>Loading...</p>
+  if (isLoading) content = <BounceLoader color="#CD760F" />
 
   if (isError) {
     content = <p className="errmsg">{error?.data?.message}</p>

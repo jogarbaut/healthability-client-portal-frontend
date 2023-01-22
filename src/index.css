@@ -14,13 +14,14 @@
   --BORDER-COLOR: #333;
   --BRAND-COLOR: #31452C;
   --COLOR: #333;
-  --ERROR: firebrick;
+  --ERROR: #ff033e;
   --INACTIVE: lightgray;
   --LINK-COLOR: #CD760F;
   --LINK-HOVER: rgba(205, 118, 15, 0.9);
   --NOTE-BGCOLOR: hsla(240, 64%, 27%, 0.65);
   --STATUS-COMPLETE: limegreen;
-  --STATUS-OPEN: firebrick;
+  --STATUS-OPEN: #fede00;
+  --STATUS-WARNING: #ff033e;
   --TABLE-BGCOLOR: #FFF;
   --TABLE-COLOR: #000;
   --INPUT-INVALID: #F00;
@@ -57,13 +58,16 @@
 
 .icon-button:hover,
 .icon-button:focus-visible {
-  transform: scale(1.09);
   cursor: pointer;
   color: var(--LINK-COLOR);
 }
 
 .icon-button[disabled] {
   visibility: hidden;
+}
+
+.dash-header .tooltip {
+  font-size: .75rem;
 }
 
 /* || GENERAL STYLES */
@@ -134,10 +138,6 @@ a:focus-visible {
   width: 100%;
 }
 
-.public__addr {
-  margin-top: 1em;
-}
-
 .page-title {
   font-size: 1.4em;
   margin-bottom: 1em;
@@ -151,20 +151,22 @@ a:focus-visible {
   top: 0;
   z-index: 1;
   background-color: var(--BGCOLOR);
-  padding: 1.5em 1em;
+  padding: 1em 0 2.75em 0;
   border-bottom: 1px solid var(--BORDER-COLOR);
 }
 
 .dash-header__title {
-  font-size: 1.1em;
+  font-size: 1.5em;
   font-weight: 800;
 }
 
 .dash-header__container {
   display: flex;
-  flex-flow: row nowrap;
+  flex-direction: column;
+  /* flex-flow: row nowrap; */
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .dash-header__container--small {
@@ -179,12 +181,12 @@ a:focus-visible {
 }
 
 .dash-container {
-  padding: 0.75em 0.5em;
+  padding: 2.75em 0.5em;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .dash-button {
@@ -194,15 +196,17 @@ a:focus-visible {
   color: #fff;
   background: var(--BRAND-COLOR);
   font-size: 1rem;
-  transition: .2s;
+}
+
+.dash-select {
+  margin-bottom: 1rem;
 }
 
 .dash-button:hover {
-  transform: scale(1.09);
   cursor: pointer;
   color: #fff;
   background: var(--LINK-COLOR);
-  border: var(--LINK-COLOR);
+  border: 1px solid var(--LINK-COLOR);
 }
 
 .dash-footer {
@@ -290,6 +294,10 @@ tr {
 
 .note__status--open {
   color: var(--STATUS-OPEN);
+}
+
+.note__status--warning {
+  color: var(--STATUS-WARNING);
 }
 
 .note__status--completed {
@@ -400,6 +408,7 @@ tr {
 .form__select {
   width: fit-content;
   padding: 0.25em;
+  margin-bottom: 2rem;
 }
 
 .form__action-buttons {
@@ -441,17 +450,12 @@ tr {
 
 
 @media screen and (min-width: 768px) {
+  .form-container {
+    width: 65%;
+  }
   .dash-header__title {
     font-size: 1.5em;
     font-weight: 800;
-  }
-
-  .dash-header {
-    padding: 1em;
-  }
-
-  .dash-container {
-    padding: 1em;
   }
 
   .table {

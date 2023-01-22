@@ -1,21 +1,16 @@
 import { useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faFileCirclePlus, faFilePen, faUserGear, faUserPlus, faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
-import { useNavigate, Link, useLocation } from "react-router-dom"
-
+import { faFileCirclePlus, faFile, faUserGear, faUserPlus, faRightFromBracket, faHouse } from "@fortawesome/free-solid-svg-icons"
+import { useNavigate, Link } from "react-router-dom"
 import { useSendLogoutMutation } from "../../features/auth/authApiSlice"
-
 import useAuth from "../../hooks/useAuth"
-
-const DASH_REGEX = /^\/dash(\/)?$/
-const TASKS_REGEX = /^\/dash\/tasks(\/)?$/
-const USERS_REGEX = /^\/dash\/users(\/)?$/
+import { Tooltip } from "react-tooltip"
+import BounceLoader from "react-spinners/BounceLoader"
 
 const DashboardHeader = () => {
   const { isTherapist, isAdmin } = useAuth()
 
   const navigate = useNavigate()
-  const { pathname } = useLocation()
 
   const [sendLogout, { isLoading, isSuccess, isError, error }] = useSendLogoutMutation()
 
@@ -23,56 +18,65 @@ const DashboardHeader = () => {
     if (isSuccess) navigate("/")
   }, [isSuccess, navigate])
 
+  const onHomeClicked = () => navigate("/dash")
   const onNewTaskClicked = () => navigate("/dash/tasks/new")
   const onNewUserClicked = () => navigate("/dash/users/new")
   const onTasksClicked = () => navigate("/dash/tasks")
   const onUsersClicked = () => navigate("/dash/users")
 
-  let dashClass = null
-  if (!DASH_REGEX.test(pathname) && !TASKS_REGEX.test(pathname) && !USERS_REGEX.test(pathname)) {
-    dashClass = "dash-header__container--small"
-  }
+  // Home button
+  let homeButton = (
+    <button className="icon-button" title="Home" onClick={onHomeClicked} id="home" data-tooltip-variant="warning">
+      <Tooltip anchorId="home" content="Home" place="bottom" className="tooltip" />
+      <FontAwesomeIcon icon={faHouse} />
+    </button>
+  )
 
+  // New task button
   let newTaskButton = null
-  if (TASKS_REGEX.test(pathname)) {
+  if (isTherapist || isAdmin) {
     newTaskButton = (
-      <button className="icon-button" title="New Task" onClick={onNewTaskClicked}>
+      <button className="icon-button" title="New Task" onClick={onNewTaskClicked} id="new-task" data-tooltip-variant="warning">
+        <Tooltip anchorId="new-task" content="New Task" place="bottom" className="tooltip" />
         <FontAwesomeIcon icon={faFileCirclePlus} />
       </button>
     )
   }
 
+  // View task button
+  let tasksButton = (
+    <button className="icon-button" title="Tasks" onClick={onTasksClicked} id="view-tasks" data-tooltip-variant="warning">
+      <Tooltip anchorId="view-tasks" content="View Tasks" place="bottom" className="tooltip" />
+      <FontAwesomeIcon icon={faFile} />
+    </button>
+  )
+
+  // New user button
   let newUserButton = null
-  if (USERS_REGEX.test(pathname)) {
+  if (isTherapist || isAdmin) {
     newUserButton = (
-      <button className="icon-button" title="New User" onClick={onNewUserClicked}>
+      <button className="icon-button" title="View Tasks" onClick={onNewUserClicked} id="new-user" data-tooltip-variant="warning">
+        <Tooltip anchorId="new-user" content="Add New User" place="bottom" className="tooltip" />
         <FontAwesomeIcon icon={faUserPlus} />
       </button>
     )
   }
 
+  // User settings button
   let userButton = null
   if (isTherapist || isAdmin) {
-    if (!USERS_REGEX.test(pathname) && pathname.includes("/dash")) {
-      userButton = (
-        <button className="icon-button" title="Users" onClick={onUsersClicked}>
-          <FontAwesomeIcon icon={faUserGear} />
-        </button>
-      )
-    }
-  }
-
-  let tasksButton = null
-  if (!TASKS_REGEX.test(pathname) && pathname.includes("/dash")) {
-    tasksButton = (
-      <button className="icon-button" title="Tasks" onClick={onTasksClicked}>
-        <FontAwesomeIcon icon={faFilePen} />
+    userButton = (
+      <button className="icon-button" title="Users" onClick={onUsersClicked} id="user-settings" data-tooltip-variant="warning">
+        <Tooltip anchorId="user-settings" content="User Settings" place="bottom" className="tooltip" />
+        <FontAwesomeIcon icon={faUserGear} />
       </button>
     )
   }
 
-  const logoutButton = (
-    <button className="icon-button" title="Logout" onClick={sendLogout}>
+  // Logout button
+  let logoutButton = (
+    <button className="icon-button" title="Logout" onClick={sendLogout} id="logout" data-tooltip-variant="warning">
+      <Tooltip anchorId="logout" content="Logout" place="bottom" className="tooltip" />
       <FontAwesomeIcon icon={faRightFromBracket} />
     </button>
   )
@@ -81,13 +85,14 @@ const DashboardHeader = () => {
 
   let buttonContent
   if (isLoading) {
-    buttonContent = <p>Logging Out...</p>
+    buttonContent = <BounceLoader color="#CD760F" />
   } else {
     buttonContent = (
       <>
+        {homeButton}
         {newTaskButton}
-        {newUserButton}
         {tasksButton}
+        {newUserButton}
         {userButton}
         {logoutButton}
       </>
@@ -97,9 +102,8 @@ const DashboardHeader = () => {
   const content = (
     <>
       <p className={errClass}>{error?.data?.message}</p>
-
       <header className="dash-header">
-        <div className={`dash-header__container ${dashClass}`}>
+        <div className="dash-header__container">
           <Link to="/dash">
             <h1 className="dash-header__title">Healthability Client Portal</h1>
           </Link>
