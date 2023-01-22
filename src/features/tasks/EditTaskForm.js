@@ -84,12 +84,6 @@ const EditTaskForm = ({ task, users }) => {
       <form className="form" onSubmit={(e) => e.preventDefault()}>
         <div className="form__title-row">
           <h2>Edit Task #{task.task}</h2>
-          <div className="form__action-buttons">
-            <button className="icon-button" title="Save" onClick={onSaveTaskClicked} disabled={!canSave}>
-              <FontAwesomeIcon icon={faSave} />
-            </button>
-            {deleteButton}
-          </div>
         </div>
         <label className="form__label" htmlFor="note-title">
           Title:
@@ -116,7 +110,7 @@ const EditTaskForm = ({ task, users }) => {
             {isTherapist || isAdmin ? (
               <>
                 <label className="form__label form__checkbox-container" htmlFor="note-username">
-                  ASSIGNED TO:
+                  Assign To:
                 </label>
                 <select id="note-username" name="username" className="form__select" value={userId} onChange={onUserIdChanged}>
                   {options}
@@ -138,6 +132,12 @@ const EditTaskForm = ({ task, users }) => {
               {updated}
             </p>
           </div>
+        </div>
+        <div className="form__action-buttons">
+          <button className="icon-button" title="Save" onClick={onSaveTaskClicked} disabled={!canSave}>
+            <FontAwesomeIcon icon={faSave} />
+          </button>
+          {deleteButton}
         </div>
       </form>
     </>

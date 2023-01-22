@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom"
 import Layout from "./components/Layout"
-import PublicLayout from "./components/visible_public/PublicLayout"
 import DashboardLayout from "./components/dashboard/DashboardLayout"
 import Login from "./features/auth/Login"
 import Welcome from "./features/auth/Welcome"
@@ -22,7 +21,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Public routes */}
-        <Route index element={<PublicLayout />} />
+        <Route index element={<Login />} />
         <Route path="login" element={<Login />} />
         {/* Protected routes */}
         <Route element={<PersistLogin />}>

@@ -44,10 +44,12 @@ const NewUserForm = () => {
   }, [password])
 
   useEffect(() => {
-    if (confirmPassword === password){
+    if (validPassword && confirmPassword === password) {
       setValidConfirmPassword(true)
+    } else {
+      setValidConfirmPassword(false)
     }
-  }, [password, confirmPassword])
+  }, [password, confirmPassword, validPassword])
 
   useEffect(() => {
     if (isSuccess) {
@@ -68,10 +70,7 @@ const NewUserForm = () => {
   const onConfirmPasswordChanged = (e) => setConfirmPassword(e.target.value)
 
   const onRolesChanged = (e) => {
-    const values = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    )
+    const values = Array.from(e.target.selectedOptions, (option) => option.value)
     setRoles(values)
   }
 
@@ -108,11 +107,6 @@ const NewUserForm = () => {
       <form className="form" onSubmit={onSaveUserClicked}>
         <div className="form__title-row">
           <h2>New User</h2>
-          <div className="form__action-buttons">
-            <button className="icon-button" title="Save" disabled={!canSave}>
-              <FontAwesomeIcon icon={faSave} />
-            </button>
-          </div>
         </div>
 
         <label className="form__label" htmlFor="firstName">
@@ -141,11 +135,17 @@ const NewUserForm = () => {
         <input className={`form__input ${validConfirmPwdClass}`} id="confirmPassword" name="confirmPassword" type="password" value={confirmPassword} onChange={onConfirmPasswordChanged} />
 
         <label className="form__label" htmlFor="roles">
-          ASSIGNED ROLES:
+          Assign Roles:
         </label>
         <select id="roles" name="roles" className={`form__select ${validRolesClass}`} multiple={true} size="3" value={roles} onChange={onRolesChanged}>
           {options}
         </select>
+
+        <div className="form__action-buttons">
+          <button className="icon-button" title="Save" disabled={!canSave}>
+            <FontAwesomeIcon icon={faSave} />
+          </button>
+        </div>
       </form>
     </>
   )

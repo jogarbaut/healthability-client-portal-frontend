@@ -49,10 +49,12 @@ const EditUserForm = ({ user }) => {
   }, [password])
 
   useEffect(() => {
-    if (confirmPassword === password){
+    if (password && validPassword && confirmPassword === password){
       setValidConfirmPassword(true)
+    } else {
+      setValidConfirmPassword(false)
     }
-  }, [password, confirmPassword])
+  }, [password, confirmPassword, validPassword])
 
   useEffect(() => {
     console.log(isSuccess)
@@ -113,7 +115,7 @@ const EditUserForm = ({ user }) => {
   const validLastNameClass = !validLastName ? "form__input--incomplete" : ""
   const validUserClass = !validUsername ? "form__input--incomplete" : ""
   const validPwdClass = password && !validPassword ? "form__input--incomplete" : ""
-  const validConfirmPwdClass = !validConfirmPassword ? "form__input--incomplete" : ""
+  const validConfirmPwdClass = password && !validConfirmPassword ? "form__input--incomplete" : ""
   const validRolesClass = !Boolean(roles.length) ? "form__input--incomplete" : ""
 
   const errContent = (error?.data?.message || delerror?.data?.message) ?? ""
@@ -125,14 +127,6 @@ const EditUserForm = ({ user }) => {
       <form className="form" onSubmit={(e) => e.preventDefault()}>
         <div className="form__title-row">
           <h2>Edit User</h2>
-          <div className="form__action-buttons">
-            <button className="icon-button" title="Save" onClick={onSaveUserClicked} disabled={!canSave}>
-              <FontAwesomeIcon icon={faSave} />
-            </button>
-            <button className="icon-button" title="Delete" onClick={onDeleteUserClicked}>
-              <FontAwesomeIcon icon={faTrashCan} />
-            </button>
-          </div>
         </div>
 
         <label className="form__label" htmlFor="firstName">
@@ -156,21 +150,30 @@ const EditUserForm = ({ user }) => {
         <input className={`form__input ${validPwdClass}`} id="password" name="password" type="password" value={password} onChange={onPasswordChanged} />
 
         <label className="form__label" htmlFor="confirmPassword">
-          Password: <span className="nowrap">[empty = no change]</span> <span className="nowrap">[4-12 chars incl. !@#$%]</span>
+          Confirm Password: <span className="nowrap">[empty = no change]</span> <span className="nowrap">[4-12 chars incl. !@#$%]</span>
         </label>
         <input className={`form__input ${validConfirmPwdClass}`} id="confirmPassword" name="confirmPassword" type="password" value={confirmPassword} onChange={onConfirmPasswordChanged} />
 
         <label className="form__label form__checkbox-container" htmlFor="user-active">
-          ACTIVE:
+          Active:
           <input className="form__checkbox" id="user-active" name="user-active" type="checkbox" checked={active} onChange={onActiveChanged} />
         </label>
 
         <label className="form__label" htmlFor="roles">
-          ASSIGNED ROLES:
+          Assigned Roles:
         </label>
         <select id="roles" name="roles" className={`form__select ${validRolesClass}`} multiple={true} size="3" value={roles} onChange={onRolesChanged}>
           {options}
         </select>
+
+        <div className="form__action-buttons">
+            <button className="icon-button" title="Save" onClick={onSaveUserClicked} disabled={!canSave}>
+              <FontAwesomeIcon icon={faSave} />
+            </button>
+            <button className="icon-button" title="Delete" onClick={onDeleteUserClicked}>
+              <FontAwesomeIcon icon={faTrashCan} />
+            </button>
+          </div>
       </form>
     </>
   )

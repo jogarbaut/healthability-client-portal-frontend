@@ -1,10 +1,8 @@
 import { useRef, useState, useEffect } from "react"
-import { useNavigate, Link } from "react-router-dom"
-
+import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
 import { useLoginMutation } from "./authApiSlice"
-
 import usePersist from "../../hooks/usePersist"
 
 const Login = () => {
@@ -61,31 +59,31 @@ const Login = () => {
   const content = (
     <section className="public">
       <header>
-        <h1>Client Login</h1>
+        <h1>Healthability Client Portal</h1>
       </header>
       <main className="login">
         <p ref={errRef} className={errClass} aria-live="assertive">
           {errMsg}
         </p>
         <div className="form-container">
-        <form className="form" onSubmit={handleSubmit}>
-        <h2 className="page-title">Login</h2>
-          <label htmlFor="username">Username:</label>
-          <input className="form__input" type="text" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required />
+          <form className="form" onSubmit={handleSubmit}>
+            <h2 className="page-title">Login</h2>
+            <label htmlFor="username">Username:</label>
+            <input className="form__input" type="text" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required />
 
-          <label htmlFor="password">Password:</label>
-          <input className="form__input" type="password" id="password" onChange={handlePwdInput} value={password} required />
-          <button className="form__submit-button">Sign In</button>
+            <label htmlFor="password">Password:</label>
+            <input className="form__input" type="password" id="password" onChange={handlePwdInput} value={password} required />
+            <button className="form__submit-button">Sign In</button>
 
-          <label htmlFor="persist" className="form__persist">
-            <input type="checkbox" className="form__checkbox" id="persist" onChange={handleToggle} checked={persist} />
-            Trust This Device
-          </label>
-        </form>
+            <label htmlFor="persist" className="form__persist">
+              <input type="checkbox" className="form__checkbox" id="persist" onChange={handleToggle} checked={persist} />
+              Trust This Device
+            </label>
+          </form>
         </div>
       </main>
       <footer>
-        <Link to="/">Back to Home</Link>
+        <p>Project by Jomel Bautista</p>
       </footer>
     </section>
   )

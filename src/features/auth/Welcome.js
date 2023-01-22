@@ -7,20 +7,24 @@ const Welcome = () => {
   const content = (
     <section className="welcome">
       <h1>Welcome {username}!</h1>
-      <p>
-        <Link to="/dash/tasks">&#10003; View Client Tasks</Link>
-      </p>
+
+      <Link to="/dash/tasks">
+        <button className="dash-button">View Client Tasks</button>
+      </Link>
+
       {(isTherapist || isAdmin) && (
         <>
-          <p>
-            <Link to="/dash/tasks/new">&#10003; Assign New Task To Clients</Link>
-          </p>
-          <p>
-            <Link to="/dash/users">&#10003; View User Settings</Link>
-          </p>
-          <p>
-            <Link to="/dash/users/new">&#10003; Add New User</Link>
-          </p>
+          <Link to="/dash/tasks/new">
+            <button className="dash-button">Assign New Task To Clients</button>
+          </Link>
+
+          <Link to="/dash/users">
+            <button className="dash-button">View User Settings</button>
+          </Link>
+
+          <Link to="/dash/users/new">
+            <button className="dash-button"> Add New User</button>
+          </Link>
         </>
       )}
     </section>

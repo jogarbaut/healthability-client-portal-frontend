@@ -28,7 +28,7 @@ const DashboardFooter = () => {
       {goHomeButton}
       <p>Current User: {username}</p>
       <p>Status: {status}</p>
-      <p>Data Last Refreshed: {today}</p>
+      <p>Last Refreshed: {today}</p>
     </footer>
   )
   return content

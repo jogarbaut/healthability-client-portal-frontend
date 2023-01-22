@@ -15,7 +15,6 @@ const Task = ({ taskId }) => {
 
   if (task) {
     const created = new Date(task.createdAt).toLocaleString("en-US", { day: "numeric", month: "2-digit", year: "2-digit" }) 
-    const updated = new Date(task.updatedAt).toLocaleString("en-US", { day: "numeric", month: "long" })
     const dueDate = new Date(task.dueDate).toLocaleString("en-US", { day: "numeric", month: "2-digit", year: "2-digit" }) 
 
     const handleEdit = () => navigate(`/dash/tasks/${taskId}`)

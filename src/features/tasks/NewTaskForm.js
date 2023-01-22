@@ -59,11 +59,7 @@ const NewTaskForm = ({ users }) => {
       <form className="form" onSubmit={onSaveTaskClicked}>
         <div className="form__title-row">
           <h2>New Task</h2>
-          <div className="form__action-buttons">
-            <button className="icon-button" title="Save" disabled={!canSave}>
-              <FontAwesomeIcon icon={faSave} />
-            </button>
-          </div>
+          <p>Assign a new task to your client that is private for the client. The client will be able to read and indicate when they complete the task.</p>
         </div>
 
         <label className="form__label" htmlFor="title">
@@ -72,7 +68,7 @@ const NewTaskForm = ({ users }) => {
         <input className={`form__input ${validTitleClass}`} id="title" name="title" type="text" autoComplete="off" value={title} onChange={onTitleChanged} />
 
         <label className="form__label" htmlFor="body">
-          Body:
+          Notes:
         </label>
         <textarea className={`form__input form__input--text ${validBodyClass}`} id="body" name="body" value={body} onChange={onBodyChanged} />
 
@@ -87,6 +83,12 @@ const NewTaskForm = ({ users }) => {
         <select id="username" name="username" className="form__select" value={userId} onChange={onUserIdChanged}>
           {options}
         </select>
+
+        <div className="form__action-buttons">
+          <button className="icon-button" title="Save" disabled={!canSave}>
+            <FontAwesomeIcon icon={faSave} />
+          </button>
+        </div>
       </form>
     </>
   )
