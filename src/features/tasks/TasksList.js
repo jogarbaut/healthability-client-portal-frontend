@@ -101,7 +101,7 @@ const TasksList = () => {
                 <th scope="col" className="table__th note__created">
                   Created
                 </th>
-                <th scope="col" className="table__th note__updated">
+                <th scope="col" className="table__th note__duedate">
                   Due Date
                 </th>
                 <th scope="col" className="table__th note__title">

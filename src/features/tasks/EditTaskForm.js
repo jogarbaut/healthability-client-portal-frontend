@@ -20,6 +20,7 @@ const EditTaskForm = ({ task, users }) => {
   const [dueDate, setDueDate] = useState(moment.utc(task.dueDate).format("YYYY-MM-DD"))
   const [completed, setCompleted] = useState(task.completed)
   const [userId, setUserId] = useState(task.user)
+  const [isDisabled, setIsDisabled] = useState(true)
 
   useEffect(() => {
     if (isSuccess || isDelSuccess) {
@@ -30,6 +31,13 @@ const EditTaskForm = ({ task, users }) => {
       navigate("/dash/tasks")
     }
   }, [isSuccess, isDelSuccess, navigate])
+
+  useEffect(() => {
+    if (isTherapist || isAdmin) {
+      setIsDisabled(false)
+    }
+    // eslint-disable-next-line
+  }, [])
 
   const onTitleChanged = (e) => setTitle(e.target.value)
   const onBodyChanged = (e) => setBody(e.target.value)
@@ -88,17 +96,17 @@ const EditTaskForm = ({ task, users }) => {
         <label className="form__label" htmlFor="note-title">
           Title:
         </label>
-        <input className={`form__input ${validTitleClass}`} id="note-title" name="title" type="text" autoComplete="off" value={title} onChange={onTitleChanged} />
+        <input className={`form__input ${validTitleClass}`} id="note-title" name="title" type="text" autoComplete="off" value={title} onChange={onTitleChanged} disabled={isDisabled} />
 
         <label className="form__label" htmlFor="note-body">
           Body:
         </label>
-        <textarea className={`form__input form__input--text ${validBodyClass}`} id="note-body" name="note-body" value={body} onChange={onBodyChanged} />
+        <textarea className={`form__input form__input--text ${validBodyClass}`} id="note-body" name="note-body" value={body} onChange={onBodyChanged} disabled={isDisabled} />
 
         <label className="form__label" htmlFor="dueDate">
           Due Date:
         </label>
-        <input className={`form__input ${validDueDateClass}`} id="dueDate" name="dueDate" type="date" value={dueDate} onChange={onDueDateChanged} />
+        <input className={`form__input ${validDueDateClass}`} id="dueDate" name="dueDate" type="date" value={dueDate} onChange={onDueDateChanged} disabled={isDisabled} />
 
         <div className="form__row">
           <div className="form__divider">
